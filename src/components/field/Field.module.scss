@@ -1,3 +1,11 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
 .field {
   display: inline-grid;
   border-top: 1px solid #000;
@@ -10,21 +18,40 @@
 }
 
 .grid_3 {
-  grid-template-columns: repeat(3, 50px);
+  grid-template-columns: repeat(3, 100px);
+  grid-auto-rows: 100px;
 }
 
 .cell {
   border-bottom: 1px solid #000;
   border-right: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Black Ops One', system-ui;
+  font-size: 40px;
+}
+
+.cell:hover {
+  background-color: #ccc;
+}
+
+.line {
+  width: 250px;
+  height: 8px;
+  background-color: #255225;
+  position: absolute;
 }
 
 @media (max-width: 768px) {
-  .field {
-    grid-auto-rows: 30px;
+  .grid_10 {
+    grid-template-columns: repeat(10, 31.5px);
+    grid-auto-rows: 31.5px;
   }
 
-  .grid_10 {
-    grid-template-columns: repeat(10, 30px);
+  .grid_10 .cell {
+    font-size: 25px;
   }
 
   // .grid_3 {

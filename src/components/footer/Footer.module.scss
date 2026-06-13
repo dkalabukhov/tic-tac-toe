@@ -1,0 +1,32 @@
+.footer {
+  background-color: #674a67;
+  padding: 15px 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  fill: currentColor;
+  color: #fff;
+}
