@@ -1,0 +1,33 @@
+.field {
+  display: inline-grid;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  grid-auto-rows: 50px;
+}
+
+.grid_10 {
+  grid-template-columns: repeat(10, 50px);
+}
+
+.grid_3 {
+  grid-template-columns: repeat(3, 50px);
+}
+
+.cell {
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+@media (max-width: 768px) {
+  .field {
+    grid-auto-rows: 30px;
+  }
+
+  .grid_10 {
+    grid-template-columns: repeat(10, 30px);
+  }
+
+  // .grid_3 {
+  //   grid-template-columns: repeat(3, 30px);
+  // }
+}
