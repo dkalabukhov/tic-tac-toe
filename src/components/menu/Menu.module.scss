@@ -1,6 +1,7 @@
 .menu {
   display: grid;
-  grid-template-columns: 200px 350px 200px;
+  grid-template-columns: 250px 300px 250px;
+  align-items: center;
   margin-bottom: 30px;
 }
 
@@ -33,6 +34,31 @@
 .menu .info {
   text-align: center;
   font-size: 1.6rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.undo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.undo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.undoIcon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

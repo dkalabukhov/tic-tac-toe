@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   size: 10,
   lastMove: null,
   winner: null,
+  canUndo: false,
 };
 
 export function Field() {
@@ -30,6 +31,11 @@ export function Field() {
     const row = Number(y);
     const col = Number(x);
     dispatch({ type: 'MAKE_MOVE', payload: { row, col } });
+  };
+
+  const handleUndoClick = () => {
+    if (!state.canUndo) return;
+    dispatch({ type: 'UNDO_MOVE' });
   };
 
   const handleSelectSize = (e) => {
@@ -70,6 +76,8 @@ export function Field() {
           winner={state.winner}
           handleReset={handleReset}
           handleSelectSize={handleSelectSize}
+          handleUndoClick={handleUndoClick}
+          canUndo={state.canUndo}
         />
       </div>
       <div className={styles.wrapper}>

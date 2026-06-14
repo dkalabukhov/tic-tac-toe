@@ -13,6 +13,7 @@ export function reducer(state, action) {
         winningCount: action.payload === 10 ? 5 : 3,
         lastMove: null,
         winner: null,
+        canUndo: false,
       };
     case 'RESET':
       return {
@@ -24,6 +25,7 @@ export function reducer(state, action) {
         winningCount: state.size === 10 ? 5 : 3,
         lastMove: null,
         winner: null,
+        canUndo: false,
       };
     case 'MAKE_MOVE': {
       const { row, col } = action.payload;
@@ -53,6 +55,7 @@ export function reducer(state, action) {
           winningCount: state.winningCount,
           lastMove: state.lastMove,
           winner: state.winner,
+          canUndo: false,
         };
       }
 
@@ -63,6 +66,20 @@ export function reducer(state, action) {
         winningCount: state.winningCount,
         lastMove: state.lastMove,
         winner: state.winner,
+        canUndo: true,
+      };
+    }
+
+    case 'UNDO_MOVE': {
+      state.matrix[state.lastMove.row][state.lastMove.col] = null;
+      return {
+        matrix: structuredClone(state.matrix),
+        turn: state.turn === 'X' ? 'O' : 'X',
+        size: state.size,
+        winningCount: state.winningCount,
+        lastMove: null,
+        winner: null,
+        canUndo: false,
       };
     }
 

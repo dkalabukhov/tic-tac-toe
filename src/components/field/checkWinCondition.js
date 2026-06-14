@@ -27,15 +27,12 @@ export function checkWinCondition(matrix, lastMove, winningCount, turn) {
         newCol > matrix.length - 1 ||
         matrix[newRow][newCol] !== turn
       ) {
-        console.log('break first');
         break;
       }
 
       if (matrix[newRow][newCol] === turn) {
         count += 1;
       }
-
-      console.log(count);
 
       if (count === winningCount) {
         return turn;
@@ -54,15 +51,12 @@ export function checkWinCondition(matrix, lastMove, winningCount, turn) {
         newCol > matrix.length - 1 ||
         matrix[newRow][newCol] !== turn
       ) {
-        console.log('break second');
         break;
       }
 
       if (matrix[newRow][newCol] === turn) {
         count += 1;
       }
-
-      console.log(count);
 
       if (count === winningCount) {
         return turn;
