@@ -1,21 +1,35 @@
 import cn from 'classnames';
 import styles from './Field.module.scss';
-import { generateCellId } from '../../utils/generateCellId';
-import { Matrix } from './Matrix.js';
-import { useEffect, useState } from 'react';
+import { generateCellId } from './generateCellId.js';
+import { reducer } from './reducer.js';
+import { useEffect, useReducer, useState } from 'react';
 import { Menu } from '../menu/Menu.jsx';
+import { getSymbol } from './getSymbol.js';
+
+const INITIAL_STATE = {
+  matrix: Array.from({ length: 10 }).map(() =>
+    Array.from({ length: 10 }).fill(null),
+  ),
+  turn: 'X',
+  size: 10,
+  lastMove: null,
+  winner: null,
+};
 
 export function Field() {
   const [size, setSize] = useState(10);
-  const [matrix, setMatrix] = useState(new Matrix(size));
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
-    setMatrix(matrix.reset());
+    dispatch({ type: 'CHANGE_SIZE', payload: size });
   }, [size]);
 
   const handleCellClick = (e) => {
-    const [outerCoord, innerCoord] = e.target.dataset.cellId;
-    setMatrix(matrix.makeMove(outerCoord, innerCoord));
+    if (state.winner) return;
+    const [y, x] = e.target.dataset.cellId;
+    const row = Number(y);
+    const col = Number(x);
+    dispatch({ type: 'MAKE_MOVE', payload: { row, col } });
   };
 
   const handleSelectSize = (e) => {
@@ -23,7 +37,7 @@ export function Field() {
   };
 
   const handleReset = () => {
-    setMatrix(matrix.reset());
+    dispatch({ type: 'RESET' });
   };
 
   const sizeMap = {
@@ -34,7 +48,8 @@ export function Field() {
   const fieldClass = cn(styles.field, sizeMap[size]);
   const fieldCells = Array.from({ length: size ** 2 }).map((_, index) => {
     const cellId = generateCellId(index, size);
-    const [outerCoord, innerCoord] = cellId;
+    const [y, x] = cellId;
+    const symbol = state ? getSymbol(state.matrix, x, y) : '';
     return (
       <div
         data-cell-id={cellId}
@@ -42,7 +57,7 @@ export function Field() {
         className={styles.cell}
         onClick={(e) => handleCellClick(e)}
       >
-        {matrix.getCoordSymbol(outerCoord, innerCoord)}
+        {symbol}
       </div>
     );
   });
@@ -50,7 +65,12 @@ export function Field() {
   return (
     <>
       <div className='container_sm'>
-        <Menu handleReset={handleReset} handleSelectSize={handleSelectSize} />
+        <Menu
+          turn={state.turn === 'X' ? 'X' : 'O'}
+          winner={state.winner}
+          handleReset={handleReset}
+          handleSelectSize={handleSelectSize}
+        />
       </div>
       <div className={styles.wrapper}>
         <div className={fieldClass}>
