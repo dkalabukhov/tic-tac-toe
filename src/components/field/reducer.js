@@ -13,6 +13,7 @@ export function reducer(state, action) {
         winningCount: action.payload === 10 ? 5 : 3,
         lastMove: null,
         winner: null,
+        winningCoordinates: null,
         canUndo: false,
       };
     case 'RESET':
@@ -25,6 +26,7 @@ export function reducer(state, action) {
         winningCount: state.size === 10 ? 5 : 3,
         lastMove: null,
         winner: null,
+        winningCoordinates: null,
         canUndo: false,
       };
     case 'MAKE_MOVE': {
@@ -36,12 +38,15 @@ export function reducer(state, action) {
       state.matrix[row][col] = state.turn === 'X' ? 'X' : 'O';
       state.lastMove = { row, col };
 
-      state.winner = checkWinCondition(
+      const { winner, winningCoordinates } = checkWinCondition(
         state.matrix,
         state.lastMove,
         state.winningCount,
         state.turn,
       );
+
+      state.winner = winner;
+      state.winningCoordinates = winningCoordinates;
 
       if (state.winner === null && isDraw(state.matrix)) {
         state.winner = 'Draw';
@@ -55,6 +60,7 @@ export function reducer(state, action) {
           winningCount: state.winningCount,
           lastMove: state.lastMove,
           winner: state.winner,
+          winningCoordinates: state.winningCoordinates,
           canUndo: false,
         };
       }
@@ -66,6 +72,7 @@ export function reducer(state, action) {
         winningCount: state.winningCount,
         lastMove: state.lastMove,
         winner: state.winner,
+        winningCoordinates: state.winningCoordinates,
         canUndo: true,
       };
     }
@@ -79,6 +86,7 @@ export function reducer(state, action) {
         winningCount: state.winningCount,
         lastMove: null,
         winner: null,
+        winningCoordinates: null,
         canUndo: false,
       };
     }

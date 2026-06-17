@@ -14,6 +14,7 @@ export function checkWinCondition(matrix, lastMove, winningCount, turn) {
 
   for (let i = 0; i < directions.length; i += 2) {
     let count = 1;
+    const winningCoordinates = [{ row, col, order: 0 }];
 
     for (let j = 1; j < winningCount; j += 1) {
       const { dr, dc } = directions[i];
@@ -32,10 +33,16 @@ export function checkWinCondition(matrix, lastMove, winningCount, turn) {
 
       if (matrix[newRow][newCol] === turn) {
         count += 1;
+        winningCoordinates.push({ row: newRow, col: newCol, order: -j });
       }
 
       if (count === winningCount) {
-        return turn;
+        return {
+          winner: turn,
+          winningCoordinates: winningCoordinates.sort(
+            (a, b) => a.order - b.order,
+          ),
+        };
       }
     }
 
@@ -56,13 +63,19 @@ export function checkWinCondition(matrix, lastMove, winningCount, turn) {
 
       if (matrix[newRow][newCol] === turn) {
         count += 1;
+        winningCoordinates.push({ row: newRow, col: newCol, order: k });
       }
 
       if (count === winningCount) {
-        return turn;
+        return {
+          winner: turn,
+          winningCoordinates: winningCoordinates.sort(
+            (a, b) => a.order - b.order,
+          ),
+        };
       }
     }
   }
 
-  return null;
+  return { winner: null, winningCoordinates: null };
 }

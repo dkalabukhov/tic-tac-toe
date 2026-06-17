@@ -2,8 +2,9 @@ import cn from 'classnames';
 import styles from './Field.module.scss';
 import { generateCellId } from './generateCellId.js';
 import { reducer } from './reducer.js';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Menu } from '../menu/Menu.jsx';
+import { WinningLine } from '../winning-line/WinningLine.jsx';
 import { getSymbol } from './getSymbol.js';
 
 const INITIAL_STATE = {
@@ -14,12 +15,14 @@ const INITIAL_STATE = {
   size: 10,
   lastMove: null,
   winner: null,
+  winningCoordinates: null,
   canUndo: false,
 };
 
 export function Field() {
   const [size, setSize] = useState(10);
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const fieldRef = useRef(null);
 
   useEffect(() => {
     dispatch({ type: 'CHANGE_SIZE', payload: size });
@@ -81,9 +84,12 @@ export function Field() {
         />
       </div>
       <div className={styles.wrapper}>
-        <div className={fieldClass}>
+        <div ref={fieldRef} className={fieldClass}>
           {fieldCells}
-          <div className={styles.line}></div>
+          <WinningLine
+            fieldRef={fieldRef}
+            winningCoordinates={state.winningCoordinates}
+          />
         </div>
       </div>
     </>
